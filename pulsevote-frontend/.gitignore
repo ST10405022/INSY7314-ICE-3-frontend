@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# SSL certificate files
+ssl/key.pem
+ssl/cert.pem
