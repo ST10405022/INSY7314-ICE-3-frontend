@@ -1,5 +1,6 @@
 import { useState } from "react"; // React hook for managing state
 import axios from "axios"; // HTTP client for making requests
+import { isValidEmail, isStrongPassword } from "../utils/validation";
 
 // Login component for user authentication
 export default function Login() {
@@ -10,6 +11,16 @@ export default function Login() {
   // Handle form submission for user login
   const handleLogin = async (e) => {
     e.preventDefault(); // Prevent default form submission behavior
+    // Front-end checks
+    if (!email || !password) {
+      setMessage("Email and password are required.");
+      return;
+    }
+    if (!isValidEmail(email)) {
+      setMessage("Invalid email format.");
+      return;
+    }
+    // If all checks pass, proceed with login
     try {
       const res = await axios.post("https://localhost:5000/api/auth/login", {
         email, password

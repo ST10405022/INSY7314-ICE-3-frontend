@@ -1,5 +1,6 @@
 import { useState } from "react"; // React hook for managing state
 import axios from "axios"; // HTTP client for making requests
+import { isValidEmail, isStrongPassword } from "../utils/validation";
 
 // Register component for user registration
 export default function Register() {
@@ -10,6 +11,23 @@ export default function Register() {
   // Handle form submission for user registration
   const handleRegister = async (e) => {
     e.preventDefault();
+
+    // Front-end checks
+    if (!email || !password) {
+      setMessage("Email and password are required.");
+      return;
+    }
+    if (!isValidEmail(email)) {
+      setMessage("Invalid email format.");
+      return;
+    }
+    if (!isStrongPassword(password)) {
+      setMessage(
+        "Password must be at least 8 characters long and include letters and numbers."
+      );
+      return;
+    }
+    // If all checks pass, proceed with registration
     try {
       const res = await axios.post("https://localhost:5000/api/auth/register", {
         email, password
